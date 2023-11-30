@@ -1,0 +1,34 @@
+.groupcontainer{
+    background-color: white;
+    /* width: 40%;
+    height: 30vh;
+    padding-top: 2%; */
+    align-items: center;
+    display: flex;
+    margin-bottom: 3vh;
+    margin-left: 10vh;
+}
+
+.groupicon {
+    width: 20vh; 
+    height: 20vh; 
+    margin-right: 10%; 
+}
+
+.group-info{
+    color: black;
+}
+.view-more-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .view-more-button:hover {
+    background-color: #0056b3;
+  }
