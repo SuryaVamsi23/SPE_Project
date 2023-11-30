@@ -1,0 +1,78 @@
+.container{
+    background-color: rgb(2, 183, 150);
+    height: 6vh;
+}
+
+.body{
+    padding-top: 5%;
+    background-color: whitesmoke;
+    height: 85vh;
+    padding-left: 20%;
+}
+.containertext{
+    
+    padding-left: 10%;
+    font-family:serif;
+    font-size:xx-large;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+.outerbar{
+    background-color: white;
+    width: 80%;
+    height: 80%;
+    border-radius: 8%;
+    padding-left: 10%;
+    padding-top: 5%;
+}
+.buttoncontainer{
+    padding-left: 80px;
+}
+.addExpense{
+    padding: 15px 30px;
+    margin-bottom: 0.01%;
+    border: none;
+    border-radius: 8%;
+    background-color: white;
+    margin-right: 1%;
+}
+.addExpense:hover {
+    background-color: #0056b3;
+  }
+  
+  .addExpense.active {
+    background-color:  rgb(2, 183, 150); /* Green color for the active button */
+    color: white;
+  }
+  .outerbar img {
+    max-width: 40px; /* Set a maximum width for the image */
+    max-height: 100px; /* Set a maximum height for the image */
+  }
+
+.memberIcon{
+    font-size: large;
+    color: black;
+}
+.groupmembertxt{
+    color: black;
+}
+
+.groupname{
+    color: black;
+    padding-left: 35%;
+    font-size: xx-large;
+}
+.membersList li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    color: black;
+}
+
+.memberName{
+    margin-right: 20%;
+}
+.memberInfo {
+    display: flex;
+    flex-direction: column;
+  }
