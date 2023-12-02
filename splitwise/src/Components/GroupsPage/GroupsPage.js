@@ -14,11 +14,12 @@ class GroupsPage extends Component {
                 { name: "Surya", email: "surya@yahoomail.com" },
                 { name: "Rithvik", email: "rithvik@outlook.com" },
                 { name: "Sreenivas", email: "sreenivas@gmail.com" },
+                { name: "Prasanth", email: "prasanth@gmail.com" }
             ],
             transactions: [
-                { description: "Food", amount: 50 },
-                { description: "Petrol", amount: 30 },
-                { description: "Hotel", amount: 100 },
+                { id: 1, description: "Food", amount: 50, participants: [1, 2, 3] },
+                { id: 2, description: "Petrol", amount: 30, participants: [2, 3, 4] },
+                { id: 3, description: "Hotel", amount: 100, participants: [1, 4, 5] },
             ],
             newExpenseDescription: "",
             newExpenseAmount: "",
@@ -48,95 +49,119 @@ class GroupsPage extends Component {
     }
 
     handleAddExpense = () => {
-        const { members, selectedParticipants } = this.state;
+        const { members, selectedParticipants, newExpenseDescription, newExpenseAmount } = this.state;
+
+        const newTransaction = {
+            id: Date.now(),
+            description: newExpenseDescription,
+            amount: parseFloat(newExpenseAmount),
+            participants: selectedParticipants.map(participantId => parseInt(participantId, 10)),
+        };
+
+        this.setState(prevState => ({
+            transactions: [...prevState.transactions, newTransaction],
+            newExpenseDescription: "",
+            newExpenseAmount: "",
+            selectedParticipants: [],
+        }));
+    };
+
+    renderAddExpenseForm = () => {
+        const { members, newExpenseDescription, newExpenseAmount, selectedParticipants } = this.state;
+
+        const handleToggleParticipant = (participantId) => {
+            const isSelected = selectedParticipants.includes(participantId);
+            const updatedParticipants = isSelected
+                ? selectedParticipants.filter(id => id !== participantId)
+                : [...selectedParticipants, participantId];
+
+            this.setState({
+                selectedParticipants: updatedParticipants,
+            });
+        };
 
         return (
-            <div className="addExpenseForm">
+            <div className="expenseFormContainer">
                 <input
                     type="text"
                     placeholder="Expense Description"
+                    className="expenseInput"
                     name="newExpenseDescription"
-                    value={this.state.newExpenseDescription}
+                    value={newExpenseDescription}
                     onChange={this.handleInputChange}
                 />
                 <input
                     type="number"
                     placeholder="Expense Amount"
+                    className="expenseAmountInput"
                     name="newExpenseAmount"
-                    value={this.state.newExpenseAmount}
+                    value={newExpenseAmount}
                     onChange={this.handleInputChange}
                 />
-                <label>Select Participants:</label>
-                <select
-                    multiple
-                    name="selectedParticipants"
-                    value={selectedParticipants}
-                    onChange={(e) => this.handleParticipantChange(Array.from(e.target.selectedOptions, option => option.value))}
-                >
+                <div className="participantList">
+                    <label className="Selectedparticipant">Select Participants:</label>
                     {members.map((member) => (
-                        <option key={member.id} value={member.id}>{member.name}</option>
+                        <div key={member.email} className="participantItem">
+                            <input
+                                type="checkbox"
+                                id={member.email}
+                                checked={selectedParticipants.includes(member.email)}
+                                onChange={() => handleToggleParticipant(member.email)}
+                            />
+                            <label htmlFor={member.email}>{member.name}</label>
+                        </div>
                     ))}
-                </select>
-                <button onClick={this.handleAddExpense}>Add Expense</button>
+                </div>
+                <div className="selectedParticipants">
+                    <label className="Selectedparticipant">Selected Participants:</label>
+                    {selectedParticipants.length > 0 ? (
+                        <div>
+                            {selectedParticipants.map((participantId, index) => {
+                                const participant = members.find(member => member.email === participantId);
+                                return (
+                                    <span key={participant.email} className="selectedParticipant">
+                                        {participant.name}
+                                        {index !== selectedParticipants.length - 1 && ", "}
+                                    </span>
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <p>No participants selected.</p>
+                    )}
+                </div>
+                <button className="expenseButton" onClick={this.handleAddExpense}>Add Expense</button>
             </div>
         );
-    }
-
+    };
     renderInvite = () => {
         const { invitationEmail } = this.state;
 
         return (
             <div>
                 <h2 className="groupname">Goa Trip</h2>
-                <h2 className="groupmembertxt">Invite Members</h2>
+                <h2 className="groupmembertxt">Add Members</h2>
                 <input className="invitebox"
                     type="email"
-                    placeholder="Enter email address"
+                    placeholder="Enter username"
                     name="invitationEmail"
                     value={invitationEmail}
                     onChange={this.handleInputChange}
                 />
-                <button className= "invitebutton" onClick={this.handleSendInvitation}>Send Invitation</button>
+                <button className="invitebutton" onClick={this.handleSendInvitation}>Add Members</button>
             </div>
         );
     }
 
-    renderAddExpenseForm = () => {
-        const { transactions, members } = this.state;
 
-        if (!transactions || transactions.length === 0 || !members) {
-            return <p>No transactions or members available.</p>;
-        }
-    
-        return (
-            <div className="transactionsList">
-                <h2 className="groupname">Goa Trip</h2>
-                <h2 className="groupmembertxt">Transactions</h2>
-                <ul>
-                    {transactions.map((transaction) => {
-                        const participantNames = transaction.participants.map((participantId) => {
-                            const participant = members.find((member) => member.id === participantId);
-                            return participant ? participant.name : null;
-                        });
-    
-                        return (
-                            <li key={transaction.id} className="transactions">
-                                <span className="transactionDescription">{transaction.description}</span>
-                                <span className="transactionAmount">${transaction.amount}</span>
-                                <div className="participants">
-                                    {participantNames.map((participantName, index) => (
-                                        <span key={index} className="participantName">
-                                            {participantName}
-                                        </span>
-                                    ))}
-                                </div>
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
-        );
-    }
+    handleRemoveParticipant = (participantId) => {
+        const { selectedParticipants } = this.state;
+        const updatedParticipants = selectedParticipants.filter(id => id !== participantId);
+        this.setState({
+            selectedParticipants: updatedParticipants,
+        });
+    };
+
 
     renderMembers = () => {
         const { members } = this.state;
@@ -167,7 +192,7 @@ class GroupsPage extends Component {
     renderTransactions = () => {
         const { transactions } = this.state;
         const totalAmount = transactions.reduce((total, transaction) => total + transaction.amount, 0);
-    
+
         return (
             <div className="transactionsList">
                 <h2 className="groupname">Goa Trip</h2>
@@ -247,7 +272,7 @@ class GroupsPage extends Component {
                             className={`addExpense ${activeButton === "Invite" ? "active" : ""}`}
                             onClick={() => this.handleButtonClick("Invite")}
                         >
-                            Invite
+                            Add Members
                         </button>
                     </div>
                     {this.renderOuterBar()}

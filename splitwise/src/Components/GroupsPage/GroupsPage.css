@@ -40,7 +40,7 @@
     margin-right: 1%;
 }
 .addExpense:hover {
-    background-color: #0056b3;
+    background-color: rgb(172, 248, 234);
   }
   
   .addExpense.active {
@@ -116,4 +116,73 @@
     border: none;
     background-color: rgb(2, 183, 150);   
     border-radius: 5%;
+}
+.expenseFormContainer {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.expenseInput {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 12px; 
+    box-sizing: border-box;
+}
+
+.expenseAmountInput {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 12px; 
+    box-sizing: border-box;
+}
+.checkboxWrapper {
+    margin-bottom: 20px;
+}
+
+.participantItem {
+    color: black;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: large;
+}
+
+.checkboxWrapper label {
+    display: flex;
+    align-items: center;
+}
+
+.checkboxWrapper input {
+    margin-right: 10px;
+}
+
+.selectedParticipantsWrapper {
+    margin-bottom: 20px;
+}
+
+.selectedParticipant {
+    margin-right: 5px;
+    color: green;
+    font-size: large;
+}
+
+.expenseButton {
+    background-color: rgb(2, 183, 150);   
+    color: white;
+    padding: 14px; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.expenseButton:hover {
+    background-color: #45a049;
+}
+
+.Selectedparticipant{
+    color: black;
+    font-weight: bold;
 }
