@@ -63,6 +63,7 @@ class GroupsPage extends Component {
             newExpenseAmount: "",
             selectedParticipants: [],
         }));
+        console.log(this.state.selectedParticipants);
     };
 
     renderAddExpenseForm = () => {
