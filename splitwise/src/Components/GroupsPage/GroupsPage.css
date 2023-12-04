@@ -44,12 +44,12 @@
   }
   
   .addExpense.active {
-    background-color:  rgb(2, 183, 150); /* Green color for the active button */
+    background-color:  rgb(2, 183, 150);
     color: white;
   }
   .outerbar img {
-    max-width: 40px; /* Set a maximum width for the image */
-    max-height: 100px; /* Set a maximum height for the image */
+    max-width: 40px; 
+    max-height: 100px; 
   }
 
 .memberIcon{

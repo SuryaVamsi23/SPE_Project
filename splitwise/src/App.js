@@ -1,20 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
-import Login from './Components/LoginScreen/login';
-import HomeScreen from './Components/HomeScreen/HomeScreen';
-import Groups from './Components/GroupsPage/GroupsPage';
+import LoginScreen from './Components/LoginScreen/LoginScreen';
 import ViewGroups from './Components/ViewGroups/ViewGroups';
-import GroupCard from './Components/ViewGroups/GroupCard';
+import GroupsPage from './Components/GroupsPage/GroupsPage';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 function App() {
   return (
-    <div>
-      {/* <Login/> */}
-      <ViewGroups/>
-       {/* <GroupCard groupName="Goa Trip"/> */}
-      {/* <HomeScreen/> */}
-      {/* <SideNav/> */}
-      {/* <Groups/>  */}
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact component={LoginScreen} />
+        <Route path="/viewgroups" exact component={ViewGroups} />
+        <Route path="/groups" component={GroupsPage} />
+      </Switch>
+    </Router>
   );
 }
 
