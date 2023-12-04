@@ -1,7 +1,6 @@
-// GroupsPage.js
-
 import React, { Component } from "react";
 import './GroupsPage.css';
+import { Link } from 'react-router-dom'; 
 
 class GroupsPage extends Component {
     constructor(props) {
