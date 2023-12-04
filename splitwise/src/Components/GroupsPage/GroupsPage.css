@@ -31,14 +31,17 @@
 .buttoncontainer{
     padding-left: 80px;
 }
+
 .addExpense{
+    width: 190px;
     padding: 15px 30px;
     margin-bottom: 0.01%;
     border: none;
     border-radius: 8%;
-    background-color: white;
+    background-color: rgb(172, 248, 234);
     margin-right: 1%;
 }
+
 .addExpense:hover {
     background-color: rgb(172, 248, 234);
   }
@@ -86,8 +89,6 @@
 .transactions {
     display:flex;
     color: black;
-    /* justify-content:left; */
-    /* align-items: center; */
     margin-bottom: 8px; 
 }
 
@@ -111,6 +112,7 @@
     width: 500px;
 }
 .invitebutton{
+    width:20%;
     padding: 15px 30px;
     color: white;
     border: none;
@@ -170,6 +172,7 @@
 }
 
 .expenseButton {
+    width:30%;
     background-color: rgb(2, 183, 150);   
     color: white;
     padding: 14px; 
@@ -179,7 +182,7 @@
 }
 
 .expenseButton:hover {
-    background-color: #45a049;
+    background-color: rgb(172, 248, 234);;
 }
 
 .Selectedparticipant{

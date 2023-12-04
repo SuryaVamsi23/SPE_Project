@@ -1,15 +1,16 @@
-/* LoginScreen.css */
 .login-container {
   display: flex;
   height: 100vh;
   overflow: hidden;
+  width: 100%;
+  background-color: white;
 }
 
 .slider {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #4caf50;
+  background-color: rgb(2, 183, 150);   
   color: white;
   width: 50%;
   transition: transform 0.3s ease-in-out;
@@ -38,46 +39,6 @@
   font-size: 18px;
 }
 
-.form-container {
-  flex: 1;
-  padding: 20px;
-}
-
-.login-form {
-  transform: translateX(0%);
-}
-
-.signup-form {
-  transform: translateX(-100%);
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  margin-bottom: 8px;
-}
-
-input {
-  margin-bottom: 8px; /* Adjust the margin as needed */
-  padding: 10px; /* Adjust the padding to control the input field size */
-}
-
-button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-
 .slider-text {
   margin-top: 20px;
   color: white;
@@ -93,4 +54,71 @@ button:hover {
 .toggle-link:hover {
   color: #0056b3;
   text-decoration: underline;
+}
+
+.login-form input,
+.signup-form input {
+  width: 400px;
+  height: 30px; 
+  
+}
+
+.form-container {
+  flex: 1;
+}
+
+.login-form {
+  transform: translateX(0%);
+  padding-left: 10%;
+  padding-top: 20%;
+}
+
+.signup-form {
+  transform: translateX(-100%);
+  padding-left: 10%;
+  padding-top: 20%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 8px;
+}
+
+input {
+  margin-bottom: 8px; 
+  padding: 10px; 
+}
+.login-form label,
+.signup-form label {
+  color: black;
+}
+.login-form input,
+.signup-form input {
+  width: 50%;
+  color: black;
+  padding: 20px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  
+}
+
+button {
+  background-color: rgb(2, 183, 150);   
+  margin-top: 5%;;
+  color: white;
+  border: none;
+  width: 100px; 
+  height: 40px;
+  cursor: pointer;
+  border-radius: 5px;   
+}
+
+button:hover {
+  background-color: rgb(172, 248, 234);
 }
