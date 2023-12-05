@@ -2,7 +2,7 @@ pipeline{
     agent any
 
     environment{
-        Git_URL = ''
+        Git_URL = 'https://github.com/SuryaVamsi23/SPE_Project.git'
         Directory = 
     }
 }
