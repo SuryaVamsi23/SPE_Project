@@ -216,9 +216,9 @@ class GroupsPage extends Component {
     renderOuterBar = () => {
         const { activeButton } = this.state;
         if (activeButton === "Add Expense") {
-            return <div className="outerbar">
+            return (<div className="outerbar">
                 {this.renderAddExpenseForm()}
-            </div>;
+            </div>);
         } else if (activeButton === "View Transactions") {
             return (
                 <div className="outerbar">
