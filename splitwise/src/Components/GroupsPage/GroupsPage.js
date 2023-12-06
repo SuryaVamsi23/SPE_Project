@@ -13,7 +13,8 @@ class GroupsPage extends Component {
                 { name: "Surya", email: "surya@yahoomail.com" },
                 { name: "Rithvik", email: "rithvik@outlook.com" },
                 { name: "Sreenivas", email: "sreenivas@gmail.com" },
-                { name: "Prasanth", email: "prasanth@gmail.com" }
+                { name: "Prasanth", email: "prasanth@gmail.com" },
+                { name: "Budi", email: "budi369@gmail.com" }
             ],
             transactions: [
                 { id: 1, description: "Food", amount: 50, participants: [1, 2, 3] },

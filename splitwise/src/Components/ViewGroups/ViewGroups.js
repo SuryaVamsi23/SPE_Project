@@ -43,6 +43,7 @@ class ViewGroups extends Component {
                 <GroupCard groupName="Punjabi" />
                 <GroupCard groupName="Neeladri" />
                 <GroupCard groupName="Budideties" />
+                <GroupCard groupName="timepass" />
               </div>
             </div>
           </div>
