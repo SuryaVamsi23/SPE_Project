@@ -1,3 +1,5 @@
 
 
-https:
+POST https://b69a-119-161-98-68.ngrok-free.app/create_user
+Content-Type: application/json
+{"user_name" : "u1","password" : "pass","email":"gmail"}
