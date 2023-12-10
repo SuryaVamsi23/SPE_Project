@@ -26,7 +26,7 @@
     };
 
     handlelogin = async (e) =>{
-      this.props.history.push('/viewgroups');
+      // this.props.history.push('/viewgroups');
     }
     
     handleclick = async (e) =>{
@@ -106,7 +106,7 @@
                     value={this.state.password}
                     onChange={this.handleChange}
                   />
-                      <button type="submit" onClick={this.handlelogin}>Proceed</button>
+                      <button type="proceed" onClick={this.handlelogin}>Proceed</button>
                   </>
                 ) : (
                   <>

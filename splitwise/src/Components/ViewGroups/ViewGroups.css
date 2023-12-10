@@ -13,6 +13,12 @@
     margin-top: 10px;
     width: 1000px;
 }
+.yourgroups{
+  padding-left: 10%;
+  color: black;
+  font-weight: bold;
+  font-size: x-large;
+}
 .viewgroupbody {
 
     padding-top: 3%;
