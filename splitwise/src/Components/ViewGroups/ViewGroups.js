@@ -14,7 +14,7 @@ class ViewGroups extends Component {
   togglePopup = () => {
     this.setState((prevState) => ({
       isPopupOpen: !prevState.isPopupOpen,
-      newGroupName: '', // Reset the new group name when opening/closing the popup
+      newGroupName: '', 
     }));
   };
 
@@ -23,11 +23,7 @@ class ViewGroups extends Component {
   };
 
   handleAddGroup = () => {
-    // Handle adding the new group logic here
-    // You can add the group to your state or dispatch an action to handle this in your application state
     console.log('Adding group:', this.state.newGroupName);
-
-    // Close the popup after adding the group
     this.togglePopup();
   };
 
