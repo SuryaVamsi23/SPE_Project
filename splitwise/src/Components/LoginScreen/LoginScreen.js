@@ -2,17 +2,19 @@
 import React, { Component } from 'react';
 import './LoginScreen.css';
 import { Link } from 'react-router-dom'; 
+import Cookies from 'js-cookie';
 
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLogin: true,
-      url: 'https://b69a-119-161-98-68.ngrok-free.app/',
+      url: 'http://127.0.0.1:8000/',
       email: '',
       password: '',
       name: '',
       confirmPassword: '',
+      token: ''
     };
   }
 
@@ -23,20 +25,38 @@ class LoginScreen extends Component {
     });
   };
 
-  handleclick = async () =>{
-    var newurl = this.state.url + 'create_user';
-      fetch(newurl, {
+  handleclick = async (e) =>{
+    e.preventDefault();
+    try {
+      console.log(this.state.email);
+      console.log(this.state.name);
+      const newurl = this.state.url + 'create_user';
+      console.log(newurl);
+      await fetch(newurl, {
         method: 'POST',
         headers: {
-          'Content-type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: {
-          email: this.state.email,password: this.state.password,name: this.state.name}
+        body: JSON.stringify({
+          user_name: this.state.name,
+          email: this.state.email,
+          password: this.state.password,
+        }),
+      }).then(res => res.json()).then((response => {
+        if (response.success === "true") {
+          Cookies.set('cookie',response.id,response.id, { expires: 7 })
+          
+        } else {
+          alert('Not able to sign up. Please check your information.');
+          console.log('Request was not successful');
         }
-      );
-      console.log(newurl,this.state.name,this.state.password,this.state.email);
-
+      }));
+    } 
+    catch (error) {
+       console.error('Error:', error);
+     }
   }
+  
 
 
   toggleSlider = () => {
