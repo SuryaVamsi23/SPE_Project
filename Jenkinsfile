@@ -39,5 +39,15 @@ pipeline{
                 }
             }
         }
+        
+        stage('Stage 4: Clean docker images'){
+            steps{
+                script{
+                    sh 'docker container prune -f'
+                    sh 'docker image prune -f'
+                }
+            }
+        }
+
     }
 }
