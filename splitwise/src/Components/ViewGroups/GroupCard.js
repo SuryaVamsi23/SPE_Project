@@ -10,15 +10,15 @@ class GroupCard extends Component {
     state = {};
 
     render() {
-        const { groupName } = this.props;
+        const { groupName,members,cost } = this.props;
 
         return (
             <div className="groupcontainer">
                 <img src={require(`../../assets/groupicon.png`)} alt="Group Icon" className="groupicon" />
                 <div className="group-info">
                     <h3>Group Name: {groupName}</h3>
-                    <p>Members: 5</p>
-                    <p>Total Expense: $1000</p>
+                    <p>Members: {members}</p>
+                    <p>Total Expense: {cost}</p>
                     <Link to="/groups">
                         <button className="view-more-button">View More</button>
                     </Link>

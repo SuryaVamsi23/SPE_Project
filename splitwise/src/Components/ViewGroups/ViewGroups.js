@@ -36,11 +36,11 @@ class ViewGroups extends Component {
             <div className="viewgroupwrapper">
               <div className="viewgroupbody">
               <span className = "yourgroups">Your Groups</span>
-                <GroupCard groupName="Goa Trip" />
-                <GroupCard groupName="Punjabi" />
-                <GroupCard groupName="Neeladri" />
-                <GroupCard groupName="Budideties" />
-                <GroupCard groupName="timepass" />
+                <GroupCard groupName="Goa Trip" members="6" cost="25000" />
+                <GroupCard groupName="Punjabi" members="4" cost="1000"/>
+                <GroupCard groupName="Neeladri" members="2" cost="500"/>
+                <GroupCard groupName="Budideties" members="8" cost="8000" />
+                <GroupCard groupName="timepass" members="12" cost="17000"/>
               </div>
             </div>
           </div>
