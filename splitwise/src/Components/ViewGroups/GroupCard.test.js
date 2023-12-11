@@ -11,7 +11,7 @@ describe('GroupsCards Component', () => {
         </MemoryRouter>);
     });
 
-    test('renders GroupCard component with correct props', () => {
+    test('Renders GroupCard component with correct props', () => {
         const props = {
             groupName: 'Test Group',
             members: 5,
