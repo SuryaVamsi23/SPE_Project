@@ -12,7 +12,7 @@ pipeline{
         {
             steps{
 
-                git branch: 'master',
+                git branch: 'main',
                 url: 'https://github.com/SuryaVamsi23/SPE_Project.git'
 
             }
