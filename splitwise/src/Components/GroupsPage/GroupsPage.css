@@ -1,6 +1,7 @@
 .container{
     background-color: rgb(2, 183, 150);
     height: 6vh;
+    padding-bottom: 0%;
 }
 
 .body{
@@ -12,9 +13,8 @@
     padding-right: 20%;
 }
 .containertext{
-    
-    padding-left: 10%;
     font-family:serif;
+    padding-left: 4%;
     font-size:xx-large;
     font-weight: bold;
     color: rgb(255, 255, 255);

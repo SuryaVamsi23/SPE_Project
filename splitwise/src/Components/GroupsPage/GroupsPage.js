@@ -245,9 +245,9 @@ class GroupsPage extends Component {
         const { activeButton } = this.state;
 
         return (
-            <div>
+            <div> 
                 <div className="container">
-                    <t className="containertext">Splitwise</t>
+                    <span className="containertext">Splitwise</span>
                 </div>
                 <div className="body">
                     <div className="buttoncontainer">

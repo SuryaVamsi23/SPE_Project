@@ -31,11 +31,11 @@ class ViewGroups extends Component {
     return (
       <div>
         <div className="viewgroupcontainer">
-          <t className="containertext">Splitwise</t>
+          <span className="containertext">Splitwise</span>
           <div className="viewgroupwrapper-container">
             <div className="viewgroupwrapper">
               <div className="viewgroupbody">
-              <t className = "yourgroups">Your Groups</t>
+              <span className = "yourgroups">Your Groups</span>
                 <GroupCard groupName="Goa Trip" />
                 <GroupCard groupName="Punjabi" />
                 <GroupCard groupName="Neeladri" />
@@ -50,10 +50,10 @@ class ViewGroups extends Component {
           {this.state.isPopupOpen && (
             <div className="popup">
               <div className="popup-content">
-                <span className="close" onClick={this.togglePopup}>
-                  &times;
-                </span>
                 <h2 className='newgroup'>Add New Group</h2>
+                <span className="close" onClick={this.togglePopup}>
+                  x
+                </span>
                 <input
                   type="text"
                   placeholder="Enter group name"

@@ -26,7 +26,7 @@
     };
 
     handlelogin = async (e) =>{
-      // this.props.history.push('/viewgroups');
+      this.props.history.push('/viewgroups');
     }
     
     handleclick = async (e) =>{

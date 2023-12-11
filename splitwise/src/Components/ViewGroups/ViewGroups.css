@@ -13,6 +13,15 @@
     margin-top: 10px;
     width: 1000px;
 }
+.close {
+  position: absolute;
+  padding-right: 42%;
+  padding-top: 22%;
+  cursor: pointer;
+  font-size: 20px;
+  color: #333; 
+}
+
 .yourgroups{
   padding-left: 10%;
   color: black;

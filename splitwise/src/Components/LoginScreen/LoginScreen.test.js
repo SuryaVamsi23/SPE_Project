@@ -2,8 +2,6 @@ import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LoginScreen from './LoginScreen';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
 
 describe('LoginScreen Component', () => {
     test('renders the base component', () => {
@@ -37,7 +35,7 @@ describe('LoginScreen Component', () => {
     //     fireEvent.click(screen.getByText('Proceed'));
     // });
 
-    test('Checking Signup', async() =>{
+    test('Checking Signup',() =>{
         render(<LoginScreen />);
         fireEvent.click(screen.getByText('Sign up'));
         const nameElement = screen.getByPlaceholderText('Enter your name');
