@@ -1,6 +1,6 @@
 pipeline{
     environment{
-        frontend = 'splitwise_frontend'
+        frontend = 'splitwise'
         backend = ''
 
     }
@@ -23,7 +23,7 @@ pipeline{
             steps {
 
                 dir('splitwise') {
-                    sh "docker build -t suryavamsi2312/${frontend} ."
+                    sh "docker build -t SuryaVamsi/${frontend} ."
                 }
             }
         }
