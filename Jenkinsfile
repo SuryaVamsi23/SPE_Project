@@ -20,13 +20,24 @@ pipeline{
 
         
         stage('Stage 2: Building frontend Docker image') {
+            
             steps {
-
-                dir('splitwise') {
-                    sh "docker build -t SuryaVamsi/${frontend} ."
-                }
+                script {
+                    dir('splitwise'){
+                        frontendimage = docker.build "suryavamsi2312/splitwise_frontend:latest"
+                    }
+                }   
             }
         }
 
+        stage('Stage 3: Pushing docker images to Dockerhub') {
+            steps {
+                script {
+                    docker.withRegistry('', 'DockerHubCred') {
+                        frontendimage.push()
+                    }
+                }
+            }
+        }
     }
 }
