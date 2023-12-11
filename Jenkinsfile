@@ -1,6 +1,6 @@
 pipeline{
     environment{
-        frontend = 'splitwise_backend'
+        frontend = 'splitwise_frontend'
         backend = ''
 
     }
@@ -17,5 +17,16 @@ pipeline{
 
             }
         }
+
+        
+        stage('Stage 2: Building frontend Docker image') {
+            steps {
+
+                dir('splitwise') {
+                    sh "docker build -t suryavamsi2312/${frontend} ."
+                }
+            }
+        }
+
     }
 }
