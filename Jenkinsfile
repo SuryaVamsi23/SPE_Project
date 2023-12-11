@@ -33,7 +33,7 @@ pipeline{
         stage('Stage 3: Pushing docker images to Dockerhub') {
             steps {
                 script {
-                    docker.withRegistry('', 'DockerHubCred') {
+                    docker.withRegistry('', 'DockerHubCreds') {
                         frontendimage.push()
                     }
                 }
