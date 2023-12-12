@@ -2,14 +2,15 @@
   import React, { Component } from 'react';
   import './LoginScreen.css';
   import { Link } from 'react-router-dom'; 
-  import Cookies from 'js-cookie';
+  import Cookies from 'js-cookie';  
+  import baseurl from '../Baseurl';
 
   class LoginScreen extends Component {
     constructor(props) {
       super(props);
       this.state = {
         isLogin: true,
-        url: 'http://127.0.0.1:8000/',
+        url: baseurl,
         email: '',
         password: '',
         name: '',
@@ -47,9 +48,10 @@
             password: this.state.password,
           }),
         }).then(res => res.json()).then((response => {
+          console.log(response.success)
           if (response.success === "true") {
-            Cookies.set('cookie',response.id,response.id, { expires: 7 })
-            
+            Cookies.set('cookie',response.id, { expires: 7 })
+            this.props.history.push('/viewgroups');
           } else {
             alert('Not able to sign up. Please check your information.');
             console.log('Request was not successful');

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './ViewGroups.css';
 import GroupCard from './GroupCard';
+import Cookies from 'js-cookie';  
+import baseurl from '../Baseurl';
 
 class ViewGroups extends Component {
   constructor(props) {
@@ -8,9 +10,37 @@ class ViewGroups extends Component {
     this.state = {
       isPopupOpen: false,
       newGroupName: '',
+      groups: {}
     };
   }
 
+  componentDidUpdate() {
+    this.fetchGroups();
+  }
+  
+  fetchGroups = async () => {
+    try {
+      const newurl = baseurl + 'return_groups';
+      console.log(newurl);
+      var cookie = Cookies.get('cookie');
+      await fetch(newurl,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: cookie
+        })
+      }).then(res=>res.json()).then((response=>{
+        console.log(response.name)
+        this.setState({
+          groups: response
+        })
+      }))
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
   togglePopup = () => {
     this.setState((prevState) => ({
       isPopupOpen: !prevState.isPopupOpen,
@@ -22,12 +52,34 @@ class ViewGroups extends Component {
     this.setState({ newGroupName: e.target.value });
   };
 
-  handleAddGroup = () => {
+  handleAddGroup = async() => {
     console.log('Adding group:', this.state.newGroupName);
+    try {
+      const newurl = baseurl + 'create_group';
+      console.log(newurl);
+      var cookie = Cookies.get('cookie');
+      console.log(cookie)
+      await fetch(newurl,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: cookie,
+          group_name: this.state.newGroupName
+        })
+      }).then(res=>res.json()).then((response=>{
+          console.log('new created');
+      }))
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
     this.togglePopup();
   };
 
   render() {
+    const groups  = this.state.groups;
     return (
       <div>
         <div className="viewgroupcontainer">
@@ -36,11 +88,9 @@ class ViewGroups extends Component {
             <div className="viewgroupwrapper">
               <div className="viewgroupbody">
               <span className = "yourgroups">Your Groups</span>
-                <GroupCard groupName="Goa Trip" members="6" cost="25000" />
-                <GroupCard groupName="Punjabi" members="4" cost="1000"/>
-                <GroupCard groupName="Neeladri" members="2" cost="500"/>
-                <GroupCard groupName="Budideties" members="8" cost="8000" />
-                <GroupCard groupName="timepass" members="12" cost="17000"/>
+              {Object.entries(groups).map(([key, value]) => (
+            <GroupCard key={key} groupName={value.name} members={6} cost={value.cost} />
+          ))}
               </div>
             </div>
           </div>
