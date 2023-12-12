@@ -1,0 +1,7 @@
+version: '3.5'
+services: 
+  splitwise:
+    image: suryavamsi2312/splitwise_frontend
+    ports: 
+      - "3000:3000"
+  
