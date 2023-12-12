@@ -1,2 +1,2 @@
 [localhost]
-localhost ansible_user=surya
+127.0.0.1 ansible_connection=local ansible_user=surya
