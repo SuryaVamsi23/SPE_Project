@@ -27,7 +27,35 @@
     };
 
     handlelogin = async (e) =>{
-      this.props.history.push('/viewgroups');
+      try {
+        console.log("Inside llogin")
+        console.log(this.state.email);
+        console.log(this.state.password);
+        const newurl = this.state.url + 'login_user';
+        console.log(newurl);
+        await fetch(newurl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            user_name: this.state.email,
+            password: this.state.password,
+          }),
+        }).then(res => res.json()).then((response => {
+          console.log(response.success)
+          if (response.success === "true") {
+            Cookies.set('cookie',response.id, { expires: 7 })
+            this.props.history.push('/viewgroups');
+          } else {
+            alert('Not able to Login In. Please check your information.');
+            console.log('Request was not successful');
+          }
+        }));
+      } 
+      catch (error) {
+        console.error('Error:', error);
+      }
     }
     
     handleclick = async (e) =>{
