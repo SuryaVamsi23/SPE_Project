@@ -21,6 +21,7 @@ class GroupsPage extends Component {
                 { id: 2, description: "Petrol", amount: 30, participants: [2, 3, 4] },
                 { id: 3, description: "Hotel", amount: 100, participants: [1, 4, 5] },
             ],
+            group_id: this.props.match.params.group_id,
             newExpenseDescription: "",
             newExpenseAmount: "",
             selectedParticipants: [],
@@ -68,6 +69,7 @@ class GroupsPage extends Component {
     };
 
     renderAddExpenseForm = () => {
+        console.log(this.state.group_id)
         const { members, newExpenseDescription, newExpenseAmount, selectedParticipants } = this.state;
 
         const handleToggleParticipant = (participantId) => {
@@ -136,6 +138,7 @@ class GroupsPage extends Component {
         );
     };
     renderInvite = () => {
+        console.log(this.state.group_id)
         const { invitationEmail } = this.state;
 
         return (
@@ -191,6 +194,8 @@ class GroupsPage extends Component {
     }
 
     renderTransactions = () => {
+        console.log("In group stage")
+        console.log(this.state.group_id)
         const { transactions } = this.state;
         const totalAmount = transactions.reduce((total, transaction) => total + transaction.amount, 0);
 
