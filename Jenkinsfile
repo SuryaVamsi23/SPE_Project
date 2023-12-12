@@ -18,6 +18,14 @@ pipeline{
             }
         }
 
+
+        stage('Stage 2: Testing')
+        {
+            steps{
+                sh 'npm install'
+                sh 'npm test'
+            }
+        }
         
         stage('Stage 2: Building frontend Docker image') {
             
