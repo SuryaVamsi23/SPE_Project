@@ -18,16 +18,22 @@ pipeline{
             }
         }
 
-
-        stage('Stage 2: Testing')
+       stage('Stage 2: Testing')
         {
             steps{
-                sh 'npm install'
-                sh 'npm test'
+                
+                script {
+                    
+                    dir('splitwise'){
+                        sh 'npm install'
+                        sh 'npm test'
+                    }
+                }
+
             }
         }
-        
-        stage('Stage 2: Building frontend Docker image') {
+
+        stage('Stage 3: Building frontend Docker image') {
             
             steps {
                 script {
@@ -38,7 +44,7 @@ pipeline{
             }
         }
 
-        stage('Stage 3: Pushing docker images to Dockerhub') {
+        stage('Stage 4: Pushing docker images to Dockerhub') {
             steps {
                 script {
                     docker.withRegistry('', 'DockerHubCreds') {
@@ -48,7 +54,7 @@ pipeline{
             }
         }
         
-        stage('Stage 4: Clean docker images'){
+        stage('Stage 5: Clean docker images'){
             steps{
                 script{
                     sh 'docker container prune -f'
@@ -57,7 +63,7 @@ pipeline{
             }
         }
 
-        stage('Stage 5: Ansible Deployment') {
+        stage('Stage 6: Ansible Deployment') {
             steps {
                 ansiblePlaybook(
                     becomeUser: null,
