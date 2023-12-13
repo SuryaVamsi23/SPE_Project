@@ -8,22 +8,23 @@ class GroupsPage extends Component {
         this.state = {
             activeButton: "View Transactions",
             members: [
-                { name: "Ram", email: "ram@gmail.com" },
-                { name: "Poornesh", email: "poornesh@rediffmail.com" },
-                { name: "Surya", email: "surya@yahoomail.com" },
-                { name: "Rithvik", email: "rithvik@outlook.com" },
-                { name: "Sreenivas", email: "sreenivas@gmail.com" },
-                { name: "Prasanth", email: "prasanth@gmail.com" },
-                { name: "Budi", email: "budi369@gmail.com" }
+                { id:1,name: "Ram", email: "ram@gmail.com" },
+                { id:2,name: "Poornesh", email: "poornesh@rediffmail.com" },
+                { id:3,name: "Surya", email: "surya@yahoomail.com" },
+                { id:4,name: "Rithvik", email: "rithvik@outlook.com" },
+                { id:5,name: "Sreenivas", email: "sreenivas@gmail.com" },
+                { id:6,name: "Prasanth", email: "prasanth@gmail.com" },
+                { id:7,name: "Budi", email: "budi369@gmail.com" }
             ],
             transactions: [
-                { id: 1, description: "Food", amount: 50, participants: [1, 2, 3] },
-                { id: 2, description: "Petrol", amount: 30, participants: [2, 3, 4] },
-                { id: 3, description: "Hotel", amount: 100, participants: [1, 4, 5] },
+                { id: 1, description: "Food", amount: 50, paidby: 1,participants: [1, 2, 3] },
+                { id: 2, description: "Petrol", amount: 30, paidby: 4,participants: [2, 3, 4] },
+                { id: 3, description: "Hotel", amount: 100, paidby: 6,participants: [1, 4, 5,6,7] },
             ],
             group_id: this.props.match.params.group_id,
             newExpenseDescription: "",
             newExpenseAmount: "",
+            isTransactionPopupOpen: false,
             selectedParticipants: [],
         };
     }
@@ -49,6 +50,14 @@ class GroupsPage extends Component {
         });
     }
 
+    closeTransactionPopup = () => {
+        this.setState({
+            isTransactionPopupOpen: false,
+            selectedTransaction: null,
+        });
+    };
+
+    
     handleAddExpense = () => {
         const { members, selectedParticipants, newExpenseDescription, newExpenseAmount } = this.state;
 
@@ -193,19 +202,48 @@ class GroupsPage extends Component {
         );
     }
 
-    renderTransactions = () => {
-        console.log("In group stage")
-        console.log(this.state.group_id)
-        const { transactions } = this.state;
-        const totalAmount = transactions.reduce((total, transaction) => total + transaction.amount, 0);
+    handleTransactionClick = (transaction) => {
+        this.setState({
+            isTransactionPopupOpen: true,
+            selectedTransaction: transaction,
+        });
+    };
 
+    renderTransactionPopup = () => {
+        const { isTransactionPopupOpen, selectedTransaction, members } = this.state;
+    
+        if (!isTransactionPopupOpen || !selectedTransaction) {
+            return null;
+        }
+    
+        return (
+            <div className="transactionPopup">
+                <h3>Transaction Details</h3>
+                <p>Description: {selectedTransaction.description}</p>
+                <p>Amount: ${selectedTransaction.amount}</p>
+                <p>Paid by: {members.find(member => member.id === selectedTransaction.participants[0]).name}</p>
+                <p>Participants: {selectedTransaction.participants.map(participantId => members.find(member => member.id === participantId).name).join(", ")}</p>
+                <button onClick={this.closeTransactionPopup}>Close</button>
+                <button onClick={this.handleUpdateTransaction}>Update</button>
+            </div>
+        );
+    };
+    
+
+    handleUpdateTransaction = () => {
+        console.log("Update button clicked!");
+    };
+    renderTransactions = () => {
+        const { transactions, members } = this.state;
+        const totalAmount = transactions.reduce((total, transaction) => total + transaction.amount, 0);
+    
         return (
             <div className="transactionsList">
                 <h2 className="groupname">Goa Trip</h2>
                 <h2 className="groupmembertxt">Transactions</h2>
                 <ul>
                     {transactions.map((transaction, index) => (
-                        <li key={index} className="transactions">
+                        <li key={index} className="transactions" onClick={() => this.handleTransactionClick(transaction)}>
                             <span className="transactionDescription">{transaction.description}</span>
                             <span className="transactionAmount">${transaction.amount}</span>
                         </li>
@@ -215,9 +253,10 @@ class GroupsPage extends Component {
                         <span className="transactionAmount">${totalAmount}</span>
                     </li>
                 </ul>
+                {this.renderTransactionPopup()}
             </div>
         );
-    }
+    };
 
     renderOuterBar = () => {
         const { activeButton } = this.state;
