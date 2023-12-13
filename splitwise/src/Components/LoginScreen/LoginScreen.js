@@ -79,6 +79,7 @@
           console.log(response.success)
           if (response.success === "true") {
             Cookies.set('cookie',response.id, { expires: 7 })
+            Cookies.set('name',response.name, { expires: 7 })
             this.props.history.push('/viewgroups');
           } else {
             alert('Not able to sign up. Please check your information.');

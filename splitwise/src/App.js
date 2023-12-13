@@ -9,7 +9,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={LoginScreen} />
         <Route path="/viewgroups" exact component={ViewGroups} />
-        <Route path="/groups/:group_id" component={GroupsPage} />
+        <Route path="/groups/:group_id/:groupName" component={GroupsPage} />
       </Switch>
     </Router>
   );

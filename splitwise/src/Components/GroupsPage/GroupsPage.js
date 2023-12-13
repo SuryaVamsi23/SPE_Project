@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import './GroupsPage.css';
 import { Link } from 'react-router-dom';
+import baseurl from '../Baseurl';
+import Cookies from 'js-cookie';  
 
 class GroupsPage extends Component {
     constructor(props) {
@@ -8,13 +10,13 @@ class GroupsPage extends Component {
         this.state = {
             activeButton: "View Transactions",
             members: [
-                { id: 1, name: "Ram", email: "ram@gmail.com" },
-                { id: 2, name: "Poornesh", email: "poornesh@rediffmail.com" },
-                { id: 3, name: "Surya", email: "surya@yahoomail.com" },
-                { id: 4, name: "Rithvik", email: "rithvik@outlook.com" },
-                { id: 5, name: "Sreenivas", email: "sreenivas@gmail.com" },
-                { id: 6, name: "Prasanth", email: "prasanth@gmail.com" },
-                { id: 7, name: "Budi", email: "budi369@gmail.com" }
+                // { id: 1, name: "Ram", email: "ram@gmail.com" },
+                // { id: 2, name: "Poornesh", email: "poornesh@rediffmail.com" },
+                // { id: 3, name: "Surya", email: "surya@yahoomail.com" },
+                // { id: 4, name: "Rithvik", email: "rithvik@outlook.com" },
+                // { id: 5, name: "Sreenivas", email: "sreenivas@gmail.com" },
+                // { id: 6, name: "Prasanth", email: "prasanth@gmail.com" },
+                // { id: 7, name: "Budi", email: "budi369@gmail.com" }
             ],
             transactions: [
                 { id: 1, description: "Food", amount: 50, paidby: 1, participants: [1, 2, 3] },
@@ -22,12 +24,45 @@ class GroupsPage extends Component {
                 { id: 3, description: "Hotel", amount: 100, paidby: 6, participants: [1, 4, 5, 6, 7] },
             ],
             group_id: this.props.match.params.group_id,
+            groupName: this.props.match.params.groupName,
             newExpenseDescription: "",
             newExpenseAmount: "",
             isTransactionPopupOpen: false,
             selectedParticipants: [],
+            invitationEmail: ""
         };
     }
+
+    componentDidMount()
+    {
+        this.handlerendernames()
+    }
+
+    handlerendernames = () => {
+        const { group_id, members } = this.state;
+        const newurl = baseurl + 'get_participants';
+        fetch(newurl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                group_id: group_id,
+            }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to send invitation');
+            }
+            return response.json();
+        })
+        .then(data => {
+            this.setState({members: data})
+        })
+        .catch(error => {
+            console.error('Error sending invitation', error);
+        });
+    };
     handleParticipantChange = (selectedParticipants) => {
         this.setState({ selectedParticipants });
     }
@@ -59,7 +94,36 @@ class GroupsPage extends Component {
 
 
     handleAddExpense = () => {
-        const { members, selectedParticipants, newExpenseDescription, newExpenseAmount } = this.state;
+        const { group_id,members, selectedParticipants, newExpenseDescription, newExpenseAmount } = this.state;
+        console.log("In add expense")
+        var cookie = Cookies.get('name');
+        const newurl = baseurl + 'create_expense';
+        console.log(newurl)
+        fetch(newurl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                payer: cookie,
+                group_id: group_id,
+                amount: newExpenseAmount,
+                des: newExpenseDescription,
+                participants: selectedParticipants
+            }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to send invitation');
+            }
+            return response.json();
+        })
+        .then(data => {
+            
+        })
+        .catch(error => {
+            console.error('Error sending invitation', error);
+        });
 
         const newTransaction = {
             id: Date.now(),
@@ -146,16 +210,46 @@ class GroupsPage extends Component {
             </div>
         );
     };
-    renderInvite = () => {
-        console.log(this.state.group_id)
-        const { invitationEmail } = this.state;
 
+    handleSendInvitation = () => {
+        const { group_id, invitationEmail } = this.state;
+        const newurl = baseurl + 'update_group';
+        console.log(newurl)
+        fetch(newurl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                group_id: group_id,
+                user_name: invitationEmail,
+            }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to send invitation');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Invitation sent successfully', data);
+            this.setState({ invitationEmail: '' });
+        })
+        .catch(error => {
+            console.error('Error sending invitation', error);
+        });
+    }
+
+    renderInvite = () => {
+        console.log(this.state.groupName)
+        const { invitationEmail } = this.state;
+    
         return (
             <div>
-                <h2 className="groupname">Goa Trip</h2>
+                <h2 className="groupname">{this.state.groupName}</h2>
                 <h2 className="groupmembertxt">Add Members</h2>
                 <input className="invitebox"
-                    type="email"
+                    type="username"
                     placeholder="Enter username"
                     name="invitationEmail"
                     value={invitationEmail}
@@ -181,7 +275,7 @@ class GroupsPage extends Component {
 
         return (
             <div className="membersList">
-                <h2 className="groupname">Goa Trip</h2>
+                <h2 className="groupname">{this.state.groupName}</h2>
                 <h2 className="groupmembertxt">Group Members</h2>
                 <ul>
                     {members.map((member, index) => (
@@ -319,14 +413,14 @@ class GroupsPage extends Component {
         });
     };
 
-    handleInputChange = (field, value) => {
-        this.setState((prevState) => ({
-            updatedTransaction: {
-                ...prevState.updatedTransaction,
-                [field]: value
-            }
-        }));
-    };
+    // handleInputChange = (field, value) => {
+    //     this.setState((prevState) => ({
+    //         updatedTransaction: {
+    //             ...prevState.updatedTransaction,
+    //             [field]: value
+    //         }
+    //     }));
+    // };
 
     handleSaveUpdate = () => {
         console.log("Updated transaction details:", this.state.updatedTransaction);
@@ -368,7 +462,7 @@ class GroupsPage extends Component {
 
         return (
             <div className="transactionsList">
-                <h2 className="groupname">Goa Trip</h2>
+                <h2 className="groupname">{this.state.groupName}</h2>
                 <h2 className="groupmembertxt">Transactions</h2>
                 <ul>
                     {transactions.map((transaction, index) => (

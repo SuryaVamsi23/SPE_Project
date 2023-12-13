@@ -6,14 +6,15 @@ class GroupCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          group_id: this.props.id
+          group_id: this.props.id,
+          groupName: this.props.groupName
         }
     };
 
     handleclick = async() => {
       const { group_id } = this.state
       console.log("handle  click ",this.state.group_id)
-      this.props.history.push('/groups/${this.state.group_id}');
+      this.props.history.push('/groups/${this.state.group_id}/${this.state.groupName}');
     }
     state = {};
 
@@ -27,7 +28,7 @@ class GroupCard extends Component {
                     <h3>Group Name: {groupName}</h3>
                     <p>Members: {members}</p>
                     <p>Total Expense: {cost}</p>
-                    <Link to={`/groups/${this.state.group_id}`}>
+                    <Link to={`/groups/${this.state.group_id}/${this.state.groupName}`}>
                         <button className="view-more-button" on>View More</button>
                     </Link>
                 </div>
