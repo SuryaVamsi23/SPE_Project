@@ -93,7 +93,7 @@ class ViewGroups extends Component {
               <div className="viewgroupbody">
               <span className = "yourgroups">Your Groups</span>
               {Object.entries(groups).map(([key, value]) => (
-            <GroupCard id={value.id} groupName={value.name} members={6} cost={value.cost} />
+            <GroupCard id={value.id} groupName={value.name} members={0} cost={value.cost} />
           ))}
               </div>
             </div>

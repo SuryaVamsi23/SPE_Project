@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import './GroupsPage.css';
 import { Link } from 'react-router-dom';
 import baseurl from '../Baseurl';
-import Cookies from 'js-cookie';  
+import Cookies from 'js-cookie';
 
 class GroupsPage extends Component {
     constructor(props) {
@@ -19,10 +19,11 @@ class GroupsPage extends Component {
                 // { id: 7, name: "Budi", email: "budi369@gmail.com" }
             ],
             transactions: [
-                { id: 1, description: "Food", amount: 50, paidby: 1, participants: [1, 2, 3] },
-                { id: 2, description: "Petrol", amount: 30, paidby: 4, participants: [2, 3, 4] },
-                { id: 3, description: "Hotel", amount: 100, paidby: 6, participants: [1, 4, 5, 6, 7] },
+                // { id: 1, description: "Food", amount: 50, paidby: 1, participants: [1, 2, 3] },
+                // { id: 2, description: "Petrol", amount: 30, paidby: 4, participants: [2, 3, 4] },
+                // { id: 3, description: "Hotel", amount: 100, paidby: 6, participants: [1, 4, 5, 6, 7] },
             ],
+            simplify: [],
             group_id: this.props.match.params.group_id,
             groupName: this.props.match.params.groupName,
             newExpenseDescription: "",
@@ -33,8 +34,7 @@ class GroupsPage extends Component {
         };
     }
 
-    componentDidMount()
-    {
+    componentDidMount() {
         this.handlerendernames()
     }
 
@@ -50,18 +50,19 @@ class GroupsPage extends Component {
                 group_id: group_id,
             }),
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send invitation');
-            }
-            return response.json();
-        })
-        .then(data => {
-            this.setState({members: data})
-        })
-        .catch(error => {
-            console.error('Error sending invitation', error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to send invitation');
+                }
+                return response.json();
+            })
+            .then(data => {
+                this.setState({ members: data })
+                console.log(members)
+            })
+            .catch(error => {
+                console.error('Error sending invitation', error);
+            });
     };
     handleParticipantChange = (selectedParticipants) => {
         this.setState({ selectedParticipants });
@@ -94,11 +95,12 @@ class GroupsPage extends Component {
 
 
     handleAddExpense = () => {
-        const { group_id,members, selectedParticipants, newExpenseDescription, newExpenseAmount } = this.state;
+        const { group_id, members, selectedParticipants, newExpenseDescription, newExpenseAmount } = this.state;
         console.log("In add expense")
         var cookie = Cookies.get('name');
         const newurl = baseurl + 'create_expense';
         console.log(newurl)
+        console.log("Printing participants", selectedParticipants)
         fetch(newurl, {
             method: 'POST',
             headers: {
@@ -112,28 +114,21 @@ class GroupsPage extends Component {
                 participants: selectedParticipants
             }),
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send invitation');
-            }
-            return response.json();
-        })
-        .then(data => {
-            
-        })
-        .catch(error => {
-            console.error('Error sending invitation', error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to send invitation');
+                }
+                return response.json();
+            })
+            .then(data => {
 
-        const newTransaction = {
-            id: Date.now(),
-            description: newExpenseDescription,
-            amount: parseFloat(newExpenseAmount),
-            participants: selectedParticipants.map(participantId => parseInt(participantId, 10)),
-        };
+            })
+            .catch(error => {
+                console.error('Error sending invitation', error);
+            });
 
-        this.setState(prevState => ({
-            transactions: [...prevState.transactions, newTransaction],
+
+        this.setState(({
             newExpenseDescription: "",
             newExpenseAmount: "",
             selectedParticipants: [],
@@ -142,18 +137,20 @@ class GroupsPage extends Component {
     };
 
     renderAddExpenseForm = () => {
-        console.log(this.state.group_id)
+        console.log(this.state.group_id);
         const { members, newExpenseDescription, newExpenseAmount, selectedParticipants } = this.state;
 
-        const handleToggleParticipant = (participantId) => {
-            const isSelected = selectedParticipants.includes(participantId);
+        const handleToggleParticipant = (participantName) => {
+            const isSelected = selectedParticipants.includes(participantName);
             const updatedParticipants = isSelected
-                ? selectedParticipants.filter(id => id !== participantId)
-                : [...selectedParticipants, participantId];
-
+                ? selectedParticipants.filter(name => name !== participantName)
+                : [selectedParticipants, participantName];
+            const filteredParticipants = updatedParticipants.filter(item => typeof item === 'string');
             this.setState({
                 selectedParticipants: updatedParticipants,
             });
+
+            console.log("In toggle", updatedParticipants)
         };
 
         return (
@@ -177,14 +174,14 @@ class GroupsPage extends Component {
                 <div className="participantList">
                     <label className="Selectedparticipant">Select Participants:</label>
                     {members.map((member) => (
-                        <div key={member.email} className="participantItem">
+                        <div key={member.name} className="participantItem">
                             <input
                                 type="checkbox"
-                                id={member.email}
-                                checked={selectedParticipants.includes(member.email)}
-                                onChange={() => handleToggleParticipant(member.email)}
+                                id={member.name}
+                                checked={selectedParticipants.includes(member.name)}
+                                onChange={() => handleToggleParticipant(member.name)}
                             />
-                            <label htmlFor={member.email}>{member.name}</label>
+                            <label htmlFor={member.name}>{member.name}</label>
                         </div>
                     ))}
                 </div>
@@ -192,11 +189,10 @@ class GroupsPage extends Component {
                     <label className="Selectedparticipant">Selected Participants:</label>
                     {selectedParticipants.length > 0 ? (
                         <div>
-                            {selectedParticipants.map((participantId, index) => {
-                                const participant = members.find(member => member.email === participantId);
+                            {selectedParticipants.map((participantName, index) => {
                                 return (
-                                    <span key={participant.email} className="selectedParticipant">
-                                        {participant.name}
+                                    <span key={participantName} className="selectedParticipant">
+                                        {participantName}
                                         {index !== selectedParticipants.length - 1 && ", "}
                                     </span>
                                 );
@@ -206,10 +202,13 @@ class GroupsPage extends Component {
                         <p>No participants selected.</p>
                     )}
                 </div>
-                <button className="expenseButton" onClick={this.handleAddExpense}>Add Expense</button>
+                <button className="expenseButton" onClick={this.handleAddExpense}>
+                    Add Expense
+                </button>
             </div>
         );
     };
+
 
     handleSendInvitation = () => {
         const { group_id, invitationEmail } = this.state;
@@ -225,25 +224,25 @@ class GroupsPage extends Component {
                 user_name: invitationEmail,
             }),
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send invitation');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Invitation sent successfully', data);
-            this.setState({ invitationEmail: '' });
-        })
-        .catch(error => {
-            console.error('Error sending invitation', error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to send invitation');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Invitation sent successfully', data);
+                this.setState({ invitationEmail: '' });
+            })
+            .catch(error => {
+                console.error('Error sending invitation', error);
+            });
     }
 
     renderInvite = () => {
         console.log(this.state.groupName)
         const { invitationEmail } = this.state;
-    
+
         return (
             <div>
                 <h2 className="groupname">{this.state.groupName}</h2>
@@ -272,7 +271,7 @@ class GroupsPage extends Component {
 
     renderMembers = () => {
         const { members } = this.state;
-
+        console.log(this.state.members);
         return (
             <div className="membersList">
                 <h2 className="groupname">{this.state.groupName}</h2>
@@ -413,15 +412,6 @@ class GroupsPage extends Component {
         });
     };
 
-    // handleInputChange = (field, value) => {
-    //     this.setState((prevState) => ({
-    //         updatedTransaction: {
-    //             ...prevState.updatedTransaction,
-    //             [field]: value
-    //         }
-    //     }));
-    // };
-
     handleSaveUpdate = () => {
         console.log("Updated transaction details:", this.state.updatedTransaction);
 
@@ -456,29 +446,84 @@ class GroupsPage extends Component {
         });
     };
 
+    uptransactions = () => {
+        const { group_id, members } = this.state;
+        const newurl = baseurl + 'return_expenses';
+        fetch(newurl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                group_id: group_id,
+            }),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to send invitation');
+                }
+                return response.json();
+            })
+            .then(data => {
+                this.setState({ transactions: data })
+            })
+            .catch(error => {
+                console.error('Error sending invitation', error);
+            });
+            const newurl1 = baseurl + 'simplify';
+            fetch(newurl1, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    group_id: group_id,
+                }),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to send invitation');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    this.setState({ simplify: data })
+                    console.log("Simplify",this.state.simplify)
+                })
+                .catch(error => {
+                    console.error('Error sending invitation', error);
+                });        
+    }
     renderTransactions = () => {
-        const { transactions, members } = this.state;
-        const totalAmount = transactions.reduce((total, transaction) => total + transaction.amount, 0);
-
+        const { transactions, groupName,simplify } = this.state;
+        this.uptransactions();
+    
         return (
             <div className="transactionsList">
-                <h2 className="groupname">{this.state.groupName}</h2>
+                <h2 className="groupname">{groupName}</h2>
                 <h2 className="groupmembertxt">Transactions</h2>
                 <ul>
                     {transactions.map((transaction, index) => (
                         <li key={index} className="transactions" onClick={() => this.handleTransactionClick(transaction)}>
-                            <span className="transactionDescription">{transaction.description}</span>
+                            <span className="transactionDescription">{transaction.name}</span>
                             <span className="transactionAmount">${transaction.amount}</span>
                         </li>
                     ))}
                     <li className="transactions totalTransaction">
                         {/* Who owes whom display */}
+                        {simplify.map((transaction, index) => (
+                        <li key={index} className="transactions" onClick={() => this.handleTransactionClick(transaction)}>
+                            <span className="transactionDescription">{transaction.name}</span>
+                            <span className="transactionAmount">${transaction.amount}</span>
+                        </li>
+                    ))}
                     </li>
                 </ul>
                 {this.renderTransactionPopup()}
             </div>
         );
     };
+    
 
     renderOuterBar = () => {
         const { activeButton } = this.state;

@@ -29,7 +29,7 @@
     handlelogin = async (e) =>{
       try {
         console.log("Inside llogin")
-        console.log(this.state.email);
+        console.log(this.state.name);
         console.log(this.state.password);
         const newurl = this.state.url + 'login_user';
         console.log(newurl);
@@ -39,7 +39,7 @@
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            user_name: this.state.email,
+            user_name: this.state.name,
             password: this.state.password,
           }),
         }).then(res => res.json()).then((response => {
