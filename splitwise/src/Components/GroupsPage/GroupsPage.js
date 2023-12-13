@@ -378,8 +378,7 @@ class GroupsPage extends Component {
                         </li>
                     ))}
                     <li className="transactions totalTransaction">
-                        {/* <span className="transactionDescription">Total Expense of the group</span>
-                        <span className="transactionAmount">${totalAmount}</span> */}
+                        {/* Who owes whom display */}
                     </li>
                 </ul>
                 {this.renderTransactionPopup()}
