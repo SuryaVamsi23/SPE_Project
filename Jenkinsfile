@@ -79,25 +79,37 @@ pipeline{
         stage('Stage 5: Clean docker images'){
             steps{
                 script{
-                    sh 'docker container prune -f'
-                    sh 'docker image prune -f'
+                    sh '/usr/local/bin/docker container prune -f'
+                    sh '/usr/local/bin/docker image prune -f'
                 }
             }
         }
 
         stage('Stage 6: Ansible Deployment') {
-            steps {
+            // steps {
+            //     ansiblePlaybook(
+            //         becomeUser: null,
+            //         colorized: true,
+            //         credentialsId: 'localhost',
+            //         disableHostKeyChecking: true,
+            //         installation: 'Ansible',
+            //         inventory: 'Deployment/inventory',
+            //         playbook: 'Deployment/deploy.yml',
+            //         sudoUser: null
+            //     )
+            // }
+              steps{
                 ansiblePlaybook(
                     becomeUser: null,
                     colorized: true,
                     credentialsId: 'localhost',
                     disableHostKeyChecking: true,
                     installation: 'Ansible',
-                    inventory: 'Deployment/inventory',
-                    playbook: 'Deployment/deploy.yml',
+                    inventory: 'Backend_Deploy/inventory.yml',
+                    playbook: 'Backend_Deploy/Deploy.yml',
                     sudoUser: null
                 )
-            }
+             }
         }
 
     }
