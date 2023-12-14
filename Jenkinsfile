@@ -48,7 +48,7 @@ pipeline{
             steps {
                script{
                     dir('backend_spe'){
-                         sh '/usr/local/bin/docker build -t '+registry+':v1.0 .'
+                         sh '/usr/local/bin/docker build -t '+backend_registry+':v1.0 .'
                     }
                 } 
               }
