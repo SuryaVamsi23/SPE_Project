@@ -48,7 +48,7 @@ pipeline{
             steps {
                script{
                     dir('backend_spe'){
-                      dockerimage = sh '/usr/local/bin/docker build -t '+backend_registry+':v1.0 .'
+                       docker.build(backend_registry + ':v1.0')
                     }
                 } 
               }
@@ -67,8 +67,10 @@ pipeline{
 
         steps {
           script{
+            dir('backend_spe'){
              sh '/usr/local/bin/docker login -u "gamergrange9@gmail.com" -p "docker_user"'
              sh '/usr/local/bin/docker push ' +backend_registry +':v1.0'
+            }
           } 
         }
            
