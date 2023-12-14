@@ -48,12 +48,12 @@ pipeline{
             steps {
                script{
                     dir('backend_spe'){
-                         sh '/usr/local/bin/docker build -t '+registry+':v1.0 ./backend_spe'
+                         sh '/usr/local/bin/docker build -t '+registry+':v1.0 .'
                     }
                 } 
               }
 
-            }
+        }
         
 
         stage('Stage 4: Pushing docker images to Dockerhub') {
