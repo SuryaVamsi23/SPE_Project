@@ -25,7 +25,7 @@ pipeline{
         {
             steps{
                 script{
-                    dir('backend_spe'){
+                    dir('backend_spe_2'){
                       sh 'python3 -m venv myenv'
                       sh 'source myenv/bin/activate'
                       sh 'pip3 install --user django'
@@ -47,7 +47,7 @@ pipeline{
 
             steps {
                script{
-                    dir('backend_spe'){
+                    dir('backend_spe_2'){
                          sh '/usr/local/bin/docker build -t '+backend_registry+':v1.0 .'
                     }
                 } 
