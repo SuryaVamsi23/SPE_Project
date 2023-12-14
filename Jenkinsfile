@@ -77,7 +77,7 @@ pipeline
               }
 
         }
-        }
+        
 
         stage('Stage 4: Pushing docker images to Dockerhub') {
             steps {
@@ -129,3 +129,4 @@ pipeline
 
     }
 
+}
