@@ -129,11 +129,17 @@ def create_expense(request):
 
     val = request.data['amount']
     des  = request.data['des']
+    temp = []
+    for i in participants:
+        if(isinstance(i,str)):
+            temp.append(i)
 
+    participants = temp
     try:
         user = User.objects.filter(user_name = payer)
         group = Group.objects.filter(id = group_id)
         actual_amo = amount.objects.filter(group__id = group_id, user__id = user[0].id)
+        
         if(len(actual_amo)):
             actual_amo[0].value += Decimal(val)
             actual_amo[0].save()
@@ -147,6 +153,7 @@ def create_expense(request):
             actual_amo = amount.objects.filter(group__id = group_id, user__id = user[0].id)
             if(len(actual_amo)):
                 actual_amo[0].value -= Decimal(val)/len(participants)
+                actual_amo[0].save()
             else:
                 print("expense exists already")
                 new_amount = amount(user = user[0],group = group[0])
@@ -221,24 +228,25 @@ def simplify_balances(net_balances):
 #example {group_id : 14}
 @api_view(['POST'])
 def simplify(request):
-    print("Here")
+    print("Here in json dic")
     print(request.data)
     group_id = request.data['group_id']
     try:
         group =  Group.objects.filter(id = group_id)
         group_members = group[0].members.all()
         dic = {}
-
         for mem in group_members:
 
             a = amount.objects.filter(user__id = mem.id,group__id = group[0].id)
+            print(a)
             if(len(a)):
                 dic[mem.user_name] = a[0].value
             else:
                 dic[mem.user_name] = 0
 
+        print("just before",dic)
         result = simplify_balances(dic)
-
+        print("just after",result)
 
         count = 1
         json_dic = []
@@ -246,7 +254,7 @@ def simplify(request):
             json_dic.append(val)
             count += 1
 
-
+        print(json_dic)
         return Response(json_dic)
 
 

@@ -46,6 +46,7 @@
           console.log(response.success)
           if (response.success === "true") {
             Cookies.set('cookie',response.id, { expires: 7 })
+            Cookies.set('name',response.id, { expires: 7 })
             this.props.history.push('/viewgroups');
           } else {
             alert('Not able to Login In. Please check your information.');

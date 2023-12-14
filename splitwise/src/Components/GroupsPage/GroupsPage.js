@@ -36,7 +36,7 @@ class GroupsPage extends Component {
 
     componentDidMount() {
         this.handlerendernames();
-        
+        this.uptransactions();
     }
 
     handlerendernames = () => {
@@ -497,7 +497,6 @@ class GroupsPage extends Component {
     }
     renderTransactions = () => {
         const { transactions, groupName,simplify } = this.state;
-        this.uptransactions();
     
         return (
             <div className="transactionsList">
@@ -514,7 +513,7 @@ class GroupsPage extends Component {
                         {/* Who owes whom display */}
                         {simplify.map((transaction, index) => (
                         <li key={index} className="transactions" onClick={() => this.handleTransactionClick(transaction)}>
-                            <span className="transactionDescription">{transaction.name}</span>
+                            <span className="transactionDescription">{transaction.creditor} owes {transaction.debtor}</span>
                             <span className="transactionAmount">${transaction.amount}</span>
                         </li>
                     ))}
