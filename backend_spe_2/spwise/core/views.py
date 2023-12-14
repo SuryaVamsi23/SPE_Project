@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import User, Expense, Group,amount
 from decimal import Decimal
+import collections.abc
 
 @api_view(['POST'])
 def create_user_profile(request):
@@ -131,10 +132,17 @@ def create_expense(request):
     des  = request.data['des']
     temp = []
     for i in participants:
-        if(isinstance(i,str)):
+        if(isinstance(i,collections.abc.Sequence) and not isinstance(i,str)):
+            print("in collection",i)
+            for j in i:
+                if(isinstance(j,str)):
+                    temp.append(j)
+
+        elif(isinstance(i,str)):
             temp.append(i)
 
     participants = temp
+    print("Printing participants",participants)
     try:
         user = User.objects.filter(user_name = payer)
         group = Group.objects.filter(id = group_id)

@@ -504,16 +504,15 @@ class GroupsPage extends Component {
                 <h2 className="groupmembertxt">Transactions</h2>
                 <ul>
                     {transactions.map((transaction, index) => (
-                        <li key={index} className="transactions" onClick={() => this.handleTransactionClick(transaction)}>
+                        <li key={index} className="transactions">
                             <span className="transactionDescription">{transaction.name}</span>
                             <span className="transactionAmount">${transaction.amount}</span>
                         </li>
                     ))}
                     <li className="transactions totalTransaction">
-                        {/* Who owes whom display */}
                         {simplify.map((transaction, index) => (
-                        <li key={index} className="transactions" onClick={() => this.handleTransactionClick(transaction)}>
-                            <span className="transactionDescription">{transaction.creditor} owes {transaction.debtor}</span>
+                        <li key={index} className="transactions">
+                            <span className="transactionDescription">{transaction.debtor} owes {transaction.creditor} </span>
                             <span className="transactionAmount">${transaction.amount}</span>
                         </li>
                     ))}

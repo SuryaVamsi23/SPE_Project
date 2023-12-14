@@ -123,6 +123,7 @@
 
 .transactions {
     display:flex;
+   
     color: black;
     margin-bottom: 8px; 
 }
