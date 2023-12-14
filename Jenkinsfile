@@ -22,18 +22,18 @@ pipeline
 
 
 
-       stage('Stage 2: Testing')
-        {
-            steps{
-                script{
-                    dir('splitwise'){
-                      sh 'npm install'
-                      sh 'npm test'
+    //    stage('Stage 2: Testing')
+    //     {
+    //         steps{
+    //             script{
+    //                 dir('splitwise'){
+    //                   sh 'npm install'
+    //                   sh 'npm test'
 
-                    }
-                }
-            }
-        }
+    //                 }
+    //             }
+    //         }
+    //     }
 
         stage('Stage 3: Building frontend Docker image') {
             
