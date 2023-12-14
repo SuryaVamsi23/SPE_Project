@@ -4,4 +4,12 @@ services:
     image: suryavamsi2312/splitwise_frontend
     ports: 
       - "3000:3000"
+    depend_on:
+      - backend_spe_2
+
+  backend_spe_2:
+    image: suryavamsi2312/splitwise_backend
+    ports:
+      - "8000:8000"
+
       
