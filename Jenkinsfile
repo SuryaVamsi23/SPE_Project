@@ -1,4 +1,5 @@
-pipeline{
+pipeline
+{
     environment{
         frontend = 'splitwise'
         backend_registry = 'spoider/pyth'
@@ -114,6 +115,5 @@ pipeline{
             //  }
         }
 
-    }
     }
 }
