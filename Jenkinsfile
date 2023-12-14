@@ -63,7 +63,7 @@ pipeline
                  script {
                      docker.withRegistry('', 'DockerHubCreds') {
                          frontendimage.push()
-                         backendimage.push()
+                         //backendimage.push()
                      }
                  }
              }
