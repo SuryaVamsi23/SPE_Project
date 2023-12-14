@@ -4,4 +4,3 @@ services:
     image: suryavamsi2312/splitwise_frontend
     ports: 
       - "3000:3000"
-  
