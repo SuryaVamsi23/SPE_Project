@@ -82,8 +82,8 @@ pipeline
         stage('Stage 5: Clean docker images'){
             steps{
                 script{
-                    sh '/usr/local/bin/docker container prune -f'
-                    sh '/usr/local/bin/docker image prune -f'
+                    sh 'docker container prune -f'
+                    sh 'docker image prune -f'
                 }
             }
         }
