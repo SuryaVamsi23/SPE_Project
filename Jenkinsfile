@@ -28,9 +28,9 @@ pipeline{
                     dir('backend_spe'){
                       sh 'python3 -m venv myenv'
                       sh 'source myenv/bin/activate'
-                      sh 'pip3 install django'
-                      sh 'pip3 install djangorestframework'
-                      sh 'pip3 install django-cors-headers'
+                      sh 'pip3 install --user django'
+                      sh 'pip3 install --user djangorestframework'
+                      sh 'pip3 install --user django-cors-headers'
                     }
                 }
             }
