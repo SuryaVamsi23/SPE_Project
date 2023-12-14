@@ -17,10 +17,10 @@ def create_user_profile(request):
         user = User(user_name = user_name,email = email,password = password)
         user.save()
         print("here")
-        return Response({ "id" : user.id, "name" : user.user_name,"email":user.email})
+        return Response({"success":"true", "id" : user.id, "name" : user.user_name,"email":user.email})
     except Exception as e:
         print(e)
-        return Response({"error":"Bad data"})
+        return Response({"success":"false","error":"Bad data"})
 
 @api_view(['POST'])    
 def get_user(request):
@@ -40,9 +40,9 @@ def login_user(request):
     try:
         user = User.objects.filter(user_name = user_name,password = password)
         if(len(user)):
-            return Response({"id" : user[0].id,"name" : user[0].user_name,"balance":user[0].amount})
+            return Response({"success":"true","id" : user[0].id,"name" : user[0].user_name,"balance":user[0].amount})
         else:
-            return Response({"id" : "-1"})
+            return Response({"success":"false","id" : "-1"})
 
     except Exception as e:
         print(e)
@@ -108,6 +108,19 @@ def update_group(request):
 # format {'payer' : , 'group_id' : , 'participants' : , 'amount' , des : ''}
 #{"payer" : "name" , "group_id" : "2" , "participants" : ["name", "pass"], "des" : "for fun", "amount": "250"}
 @api_view(['POST'])
+def get_participant(request):
+    group_id = request.data['group_id']
+    try:
+        group =  Group.objects.filter(id = group_id)
+        group_members = group[0].members.all()
+        lst = []
+        for mem in group_members:
+            lst.append({'id':mem.id,'name': mem.user_name, 'email': mem.email})
+        return Response(lst)
+    except:
+        return(Response({"error" : "bad data requested"}))
+        
+@api_view(['POST'])
 def create_expense(request):
 
     payer = request.data['payer']
@@ -161,14 +174,15 @@ def create_expense(request):
 def return_expenses(request):
     group_id = request.data['group_id']
     try:
-        dic = {} 
+        dic = []
         groups_part_of = Expense.objects.filter(group__id = group_id)
         
         for i in groups_part_of:
-            dic[i.id] = {
+            dic.append({
                 'id' : f'{i.id}',
-                'name': f'{i.description}'
-            }
+                'name': f'{i.description}',
+                'amount': f'{i.amount}'
+            })
         return Response(dic) 
     
     except Exception as e:
@@ -227,9 +241,9 @@ def simplify(request):
 
 
         count = 1
-        json_dic = {}
+        json_dic = []
         for val in result:
-            json_dic[count] = val
+            json_dic.append(val)
             count += 1
 
 

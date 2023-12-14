@@ -35,7 +35,8 @@ class GroupsPage extends Component {
     }
 
     componentDidMount() {
-        this.handlerendernames()
+        this.handlerendernames();
+        
     }
 
     handlerendernames = () => {
