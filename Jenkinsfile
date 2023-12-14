@@ -47,7 +47,9 @@ pipeline{
 
             steps {
                script{
-                    dockerimage = sh '/usr/local/bin/docker build -t '+backend_registry+':v1.0 .'
+                    dir('backend_spe'){
+                      dockerimage = sh '/usr/local/bin/docker build -t '+backend_registry+':v1.0 .'
+                    }
                 } 
               }
 
