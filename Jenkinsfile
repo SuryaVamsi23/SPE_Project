@@ -21,20 +21,20 @@ pipeline{
 
 
 
-       stage('Stage 2: Testing')
-        {
-            steps{
-                script{
-                    dir('backend_spe_2'){
-                      sh 'python3 -m venv myenv'
-                      sh 'source myenv/bin/activate'
-                      sh 'pip3 install --user django'
-                      sh 'pip3 install --user djangorestframework'
-                      sh 'pip3 install --user django-cors-headers'
-                    }
-                }
-            }
-        }
+    //    stage('Stage 2: Testing')
+    //     {
+    //         steps{
+    //             script{
+    //                 dir('backend_spe_2'){
+    //                   sh 'python3 -m venv myenv'
+    //                   sh 'source myenv/bin/activate'
+    //                   sh 'pip3 install --user django'
+    //                   sh 'pip3 install --user djangorestframework'
+    //                   sh 'pip3 install --user django-cors-headers'
+    //                 }
+    //             }
+    //         }
+    //     }
 
         stage('Stage 3: Building frontend and Backend Docker image') {
             
@@ -55,7 +55,7 @@ pipeline{
             //   }
 
         }
-        
+        }
 
         stage('Stage 4: Pushing docker images to Dockerhub') {
             steps {
