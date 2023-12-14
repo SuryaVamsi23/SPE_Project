@@ -38,12 +38,12 @@ pipeline{
 
         stage('Stage 3: Building frontend and Backend Docker image') {
             
-             steps {
-                 script {
-                     dir('splitwise'){
-                         frontendimage = docker.build "suryavamsi2312/splitwise_frontend:latest"
-                     }
-             }   
+            //  steps {
+            //      script {
+            //          dir('splitwise'){
+            //              frontendimage = docker.build "suryavamsi2312/splitwise_frontend:latest"
+            //          }
+            //  }   
 
             steps {
                script{
@@ -58,22 +58,22 @@ pipeline{
         
 
         stage('Stage 4: Pushing docker images to Dockerhub') {
-            steps {
-                 script {
-                     docker.withRegistry('', 'DockerHubCreds') {
-                         frontendimage.push()
-                         backendimage.push()
-                     }
-                 }
-             }
+            // steps {
+            //      script {
+            //          docker.withRegistry('', 'DockerHubCreds') {
+            //              frontendimage.push()
+            //              backendimage.push()
+            //          }
+            //      }
+            //  }
 
-        //steps {
-        //  script{
-         //   dir('backend_spe'){
-          //   sh '/usr/local/bin/docker login -u "gamergrange9@gmail.com" -p "docker_user"'
-           //  sh '/usr/local/bin/docker push ' +backend_registry +':v1.0'
-           // }
-          //} 
+        steps {
+         script{
+           dir('backend_spe'){
+            sh '/usr/local/bin/docker login -u "gamergrange9@gmail.com" -p "docker_user"'
+            sh '/usr/local/bin/docker push ' +backend_registry +':v1.0'
+           }
+          } 
         }
            
         }

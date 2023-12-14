@@ -4,3 +4,11 @@ services:
     image: suryavamsi2312/splitwise_frontend
     ports: 
       - "3000:3000"
+
+version: '3.5'
+services:
+  backend:
+    image: spoider/pyth:v1.0
+    ports: 
+      -"8000:8000"
+      
